@@ -10,14 +10,12 @@ services:
       - "./src/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
     ports:
      - '${APP_PORT}:8000'
-     - '${APP_PORT}:80'
     environment:
       - MOODLE_DOCKER_DBTYPE=pgsql
-      - MOODLE_DOCKER_DBNAME=${MOODLE_DOCKER_WEB_HOST}
-      - MOODLE_DOCKER_DBUSER=${MOODLE_DOCKER_WEB_HOST}
+      - MOODLE_DOCKER_DBNAME=${DB_POSTGRES_NAME}
+      - MOODLE_DOCKER_DBUSER=${DB_POSTGRES_USER}
       - MOODLE_DOCKER_DBPASS=${DB_POSTGRES_PASSWORD}
-      - MOODLE_DOCKER_BROWSER=firefox
-      - MOODLE_DOCKER_WEB_HOST="${MOODLE_DOCKER_WEB_HOST}"
+      - MOODLE_DOCKER_WEB_HOST=${APP_HOST}
   db:
     image: postgres:11
     ports:
