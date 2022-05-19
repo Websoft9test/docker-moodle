@@ -9,8 +9,8 @@ services:
       - "moodlesite:/var/www/html"
       - "./src/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
     ports:
-     - '9009:8000'
-     - '9888:80'
+     - '${APP_PORT}:8000'
+     - '${APP_PORT}:80'
     environment:
       - MOODLE_DOCKER_DBTYPE=pgsql
       - MOODLE_DOCKER_DBNAME=${MOODLE_DOCKER_WEB_HOST}
