@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   webserver:
-    image: "moodlehq/moodle-php-apache:${MOODLE_DOCKER_PHP_VERSION}"
+    image: "moodlehq/moodle-php-apache:${APP_VERSION}"
     depends_on:
       - db
     volumes:
