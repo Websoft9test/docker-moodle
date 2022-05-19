@@ -7,7 +7,7 @@ services:
       - db
     volumes:
       - "moodlesite:/var/www/html"
-      - "./src/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
+      - "./src/assets/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
     ports:
      - '${APP_PORT}:8000'
     environment:
