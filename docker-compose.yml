@@ -1,19 +1,37 @@
-version: "2"
+version: "3.8"
+
 services:
   webserver:
-    environment:
-      MOODLE_DOCKER_APP: "true"
-  moodleapp:
-    image: node:11
-    working_dir: /app
-    command: npm run ionic:serve
+    image: "moodlehq/moodle-php-apache:${MOODLE_DOCKER_PHP_VERSION}"
+    depends_on:
+      - db
     volumes:
-      - "${MOODLE_DOCKER_APP_PATH}:/app"
-    expose:
-      - 8100
-      - 35729
-      - 53703
+      - "${MOODLE_DOCKER_WWWROOT}:/var/www/html"
+      - "${ASSETDIR}/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
     ports:
-      - "8100:8100"
-      - "35729:35729"
-      - "53703:53703"
+     - '9009:8000'
+     - '9888:80'
+    environment:
+      MOODLE_DOCKER_DBTYPE: pgsql
+      MOODLE_DOCKER_DBNAME: moodle
+      MOODLE_DOCKER_DBUSER: moodle
+      MOODLE_DOCKER_DBPASS: "m@0dl3ing"
+      MOODLE_DOCKER_BROWSER: firefox
+      MOODLE_DOCKER_WEB_HOST: "${MOODLE_DOCKER_WEB_HOST}"
+  db:
+    image: postgres:11
+    ports:
+      - "${DB_POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${DB_POSTGRES_USER}
+      - POSTGRES_DB=${DB_POSTGRES_NAME}
+      - POSTGRES_PASSWORD=${DB_POSTGRES_PASSWORD}
+    volumes:
+      - "postgres:/var/lib/postgresql/data"
+  
+volumes:
+  postgres:
+
+networks:
+  default:
+      name: "${APP_NAME}"
