@@ -31,7 +31,7 @@ services:
       - MOODLE_DATABASE_NAME=${DB_MARIADB_NAME}
       - MOODLE_USERNAME=${APP_USER}
       - MOODLE_PASSWORD=${APP_PASSWORD}
-      - MOODLE_EMAIL=${APP_EMAIL}
+      - MOODLE_EMAIL=${EMAIL}
     ports:
       - '${APP_PORT}:8080'
     volumes:
