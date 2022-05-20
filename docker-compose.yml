@@ -7,6 +7,7 @@ services:
   mariadb:
     image: docker.io/bitnami/mariadb:${DB_MARIADB_VERSION}
     environment:
+      - ALLOW_EMPTY_PASSWORD=no
       - MARIADB_USER=${DB_MARIADB_USER}
       - MARIADB_PASSWORD=${DB_MARIADB_PASSWORD}
       - MARIADB_DATABASE=${DB_MARIADB_NAME}
@@ -20,6 +21,7 @@ services:
   moodle:
     image: docker.io/bitnami/moodle:${APP_VERSION}
     environment:
+      - ALLOW_EMPTY_PASSWORD=no
       - MOODLE_DATABASE_HOST=${DB_MARIADB_HOST}
       - MOODLE_DATABASE_PORT_NUMBER=${DB_MARIADB_PORT}
       - MOODLE_DATABASE_USER=${DB_MARIADB_USER}
