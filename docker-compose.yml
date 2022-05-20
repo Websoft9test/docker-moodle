@@ -16,7 +16,6 @@ services:
       - ${DB_MARIADB_PORT}:3306
     volumes:
       - 'mariadb_data:/bitnami/mariadb
-  
   moodle:
     image: docker.io/bitnami/moodle:${APP_VERSION}
     environment:
