@@ -1,37 +1,42 @@
+# refer to: https://github.com/bitnami/bitnami-docker-moodle
+# image: https://hub.docker.com/r/bitnami/moodle
+
 version: "3.8"
 
+
+version: '2'
 services:
-  webserver:
-    image: "moodlehq/moodle-php-apache:${APP_VERSION}"
-    container_name: ${APP_NAME}
-    depends_on:
-      - db
-    volumes:
-      - "moodlesite:/var/www/html"
-      - "./src/assets/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
-    ports:
-     - '${APP_PORT}:8000'
+  mariadb:
+    image: docker.io/bitnami/mariadb:${DB_MARIADB_VERSION}
     environment:
-      - MOODLE_DOCKER_DBTYPE=pgsql
-      - MOODLE_DOCKER_DBNAME=${DB_POSTGRES_NAME}
-      - MOODLE_DOCKER_DBUSER=${DB_POSTGRES_USER}
-      - MOODLE_DOCKER_DBPASS=${DB_POSTGRES_PASSWORD}
-      - MOODLE_DOCKER_WEB_HOST=${APP_HOST}
-  db:
-    image: postgres:11
-    container_name: ${APP_NAME}-db
-    ports:
-      - "${DB_POSTGRES_PORT}:5432"
-    environment:
-      - POSTGRES_USER=${DB_POSTGRES_USER}
-      - POSTGRES_DB=${DB_POSTGRES_NAME}
-      - POSTGRES_PASSWORD=${DB_POSTGRES_PASSWORD}
+      - MARIADB_USER=${DB_MARIADB_USER}
+      - MARIADB_PASSWORD=${DB_MARIADB_PASSWORD}
+      - MARIADB_DATABASE=${DB_MARIADB_NAME}
+      - MARIADB_CHARACTER_SET=utf8mb4
+      - MARIADB_COLLATE=utf8mb4_unicode_ci
     volumes:
-      - "postgres:/var/lib/postgresql/data"
+      - 'mariadb_data:/bitnami/mariadb
   
+  moodle:
+    image: docker.io/bitnami/moodle:4
+    ports:
+      - '80:8080'
+      - '443:8443'
+    environment:
+      - MOODLE_DATABASE_HOST=mariadb
+      - MOODLE_DATABASE_PORT_NUMBER=3306
+      - MOODLE_DATABASE_USER=bn_moodle
+      - MOODLE_DATABASE_NAME=bitnami_moodle
+    volumes:
+      - 'moodle_data:/bitnami/moodle'
+      - 'moodledata_data:/bitnami/moodledata'
+    depends_on:
+      - mariadb
+
 volumes:
-  postgres:
-  moodlesite:
+  mariadb_data:
+  moodle_data:
+  moodledata_data:
 
 networks:
   default:
