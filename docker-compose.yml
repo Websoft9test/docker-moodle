@@ -19,14 +19,14 @@ services:
   
   moodle:
     image: docker.io/bitnami/moodle:${APP_VERSION}
-    ports:
-      - ${APP_PORT}:8080
     environment:
       - MOODLE_DATABASE_HOST=${DB_MARIADB_HOST}
       - MOODLE_DATABASE_PORT_NUMBER=${DB_MARIADB_PORT}
       - MOODLE_DATABASE_USER=${DB_MARIADB_USER}
       - MOODLE_DATABASE_PASSWORD=${DB_MARIADB_PASSWORD}
       - MOODLE_DATABASE_NAME=${DB_MARIADB_NAME}
+    ports:
+      - ${APP_PORT}:8080
     volumes:
       - 'moodle_data:/bitnami/moodle'
       - 'moodledata_data:/bitnami/moodledata'
